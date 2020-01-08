@@ -19,13 +19,14 @@ new Vue({
     winMessage: `Вы выиграли! Сыграем ещё?`,
     lostMessage: `Увы, монстр оказался сильнее... Наваляем ему?`,
     healValue: 10,
-    logMessages: []
+    turns: []
   },
   methods: {
     startNewGame() {
       this.gameStarted = true;
       this.playerHealth = 100;
       this.monsterHealth = 100;
+      this.turns = [];
     },
     calcDamage(minDamage, maxDamage) {
       return Math.max(Math.floor(Math.random() * maxDamage) + 1, minDamage);
@@ -56,7 +57,12 @@ new Vue({
         playerMaxDamage = this.player.maxSpecDamage;
       }
 
-      this.monsterHealth -= this.calcDamage(playerMinDamage, playerMaxDamage);
+      const damage = this.calcDamage(playerMinDamage, playerMaxDamage)
+      this.monsterHealth -= damage;
+      this.turns.unshift({
+        isPlayer: true,
+        text: `Вы наносите урон монстру: ${damage}`
+      });
       if (this.checkWin()) {
         return;
       }
@@ -64,7 +70,12 @@ new Vue({
       this.monsterAttack();
     },
     monsterAttack() {
-      this.playerHealth -= this.calcDamage(this.monster.minDamage, this.monster.maxDamage);
+      const damage = this.calcDamage(this.monster.minDamage, this.monster.maxDamage);
+      this.playerHealth -= damage;
+      this.turns.unshift({
+        isPlayer: false,
+        text: `Монстр наносит вам урон: ${damage}`
+      });
       this.checkWin();
     },
     heal() {
