@@ -2,10 +2,8 @@ new Vue({
   el: `#app`,
   data: {
     gameStarted: false,
-    healthbar: {
-      player: 100,
-      monster: 100
-    },
+    playerHealth: 100,
+    monsterHealth: 100,
     logMessages: []
   },
   computed: {
@@ -13,7 +11,7 @@ new Vue({
   },
   methods: {
     startNewGame() {
-      //...
+      this.gameStarted = true;
     },
     attack() {
       //...
@@ -25,7 +23,7 @@ new Vue({
       //...
     },
     giveUp() {
-      //...
+      this.gameStarted = false;
     },
     addLogMessage() {
       //...
