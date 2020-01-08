@@ -45,18 +45,15 @@ new Vue({
       }
       return false;
     },
-    attack() {
-      // Сделать рефакторинг с учётом спец. атаки
-      this.monsterHealth -= this.calcDamage(this.player.minDamage, this.player.maxDamage);
-      if (this.checkWin()) {
-        return;
+    attack(spec = false) {
+      let playerMinDamage = this.player.minDamage;
+      let playerMaxDamage = this.player.maxDamage;
+      if (spec === true) {
+        playerMinDamage = this.player.minSpecDamage;
+        playerMaxDamage = this.player.maxSpecDamage;
       }
 
-      this.playerHealth -= this.calcDamage(this.monster.minDamage, this.monster.maxDamage);
-      this.checkWin();
-    },
-    specialAttack() {
-      this.monsterHealth -= this.calcDamage(this.player.minSpecDamage, this.player.maxSpecDamage);
+      this.monsterHealth -= this.calcDamage(playerMinDamage, playerMaxDamage);
       if (this.checkWin()) {
         return;
       }
