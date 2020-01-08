@@ -58,6 +58,9 @@ new Vue({
         return;
       }
 
+      this.monsterAttack();
+    },
+    monsterAttack() {
       this.playerHealth -= this.calcDamage(this.monster.minDamage, this.monster.maxDamage);
       this.checkWin();
     },
