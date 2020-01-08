@@ -45,6 +45,16 @@
     background-color: #ffc0c1;
 }
 
+.log ul .heal-turn {
+    color: green;
+    background-color: #9ff19f;
+}
+
+.log ul .giveup-turn {
+    color: black;
+    background-color: #bbb;
+}
+
 button {
     font-size: 20px;
     background-color: #eee;

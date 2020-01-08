@@ -52,7 +52,15 @@
     <section class="row log" v-if="turns.length > 0">
       <div class="small-12 columns">
         <ul>
-          <li v-for="message in turns">
+          <li
+            v-for="message in turns"
+            :class="{
+              'player-turn': message.isPlayer,
+              'monster-turn': !message.isPlayer,
+              'heal-turn': message.isHeal,
+              'giveup-turn': message.isGiveup
+            }"
+          >
             {{ message.text }}
           </li>
         </ul>

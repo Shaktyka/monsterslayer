@@ -62,6 +62,8 @@ new Vue({
       const message = spec ? `Вы сильно бьёте монстра: ${damage}` : `Вы наносите урон монстру: ${damage}`;
       this.turns.unshift({
         isPlayer: true,
+        isHeal: false,
+        isGiveup: false,
         text: message
       });
       if (this.checkWin()) {
@@ -75,6 +77,8 @@ new Vue({
       this.playerHealth -= damage;
       this.turns.unshift({
         isPlayer: false,
+        isHeal: false,
+        isGiveup: false,
         text: `Монстр наносит вам урон: ${damage}`
       });
       this.checkWin();
@@ -87,11 +91,19 @@ new Vue({
       }
       this.turns.unshift({
         isPlayer: true,
+        isHeal: true,
+        isGiveup: false,
         text: `Вы восстанавливаете здоровье: ${this.healValue}`
       });
       this.monsterAttack();
     },
     giveUp() {
+      this.turns.unshift({
+        isPlayer: true,
+        isHeal: false,
+        isGiveup: true,
+        text: `Вы сдались :(`
+      });
       this.gameStarted = false;
     },
     addLogMessage() {
