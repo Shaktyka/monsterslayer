@@ -16,8 +16,13 @@ new Vue({
       maxDamage: 12,
       minDamage: 5
     },
-    winMessage: `Вы выиграли! Сыграем ещё?`,
-    lostMessage: `Увы, монстр оказался сильнее... Наваляем ему?`,
+    winMessage: `Вы победили! Сыграем ещё?`,
+    lostMessage: `Увы, монстр оказался сильнее... Сыграем ещё?`,
+    healMessage: `Вы восстанавливаете здоровье: `,
+    giveUpMessage: `Вы сдались :(`,
+    damageMessage: `Монстр наносит вам урон: `,
+    attackMessage: `Вы наносите урон монстру: `,
+    specAttackMessage: `Вы сильно бьёте монстра: `,
     healValue: 10,
     turns: []
   },
@@ -59,7 +64,10 @@ new Vue({
 
       const damage = this.calcDamage(playerMinDamage, playerMaxDamage)
       this.monsterHealth -= damage;
-      const message = spec ? `Вы сильно бьёте монстра: ${damage}` : `Вы наносите урон монстру: ${damage}`;
+      if (this.monsterHealth < 0) {
+        this.monsterHealth = 0;
+      }
+      const message = spec ? (this.specAttackMessage + damage) : (this.attackMessage + damage);
       this.turns.unshift({
         isPlayer: true,
         isHeal: false,
@@ -75,11 +83,14 @@ new Vue({
     monsterAttack() {
       const damage = this.calcDamage(this.monster.minDamage, this.monster.maxDamage);
       this.playerHealth -= damage;
+      if (this.playerHealth < 0) {
+        this.playerHealth = 0;
+      }
       this.turns.unshift({
         isPlayer: false,
         isHeal: false,
         isGiveup: false,
-        text: `Монстр наносит вам урон: ${damage}`
+        text: this.damageMessage + damage
       });
       this.checkWin();
     },
@@ -93,7 +104,7 @@ new Vue({
         isPlayer: true,
         isHeal: true,
         isGiveup: false,
-        text: `Вы восстанавливаете здоровье: ${this.healValue}`
+        text: this.healMessage + this.healValue
       });
       this.monsterAttack();
     },
@@ -102,13 +113,9 @@ new Vue({
         isPlayer: true,
         isHeal: false,
         isGiveup: true,
-        text: `Вы сдались :(`
+        text: this.giveUpMessage
       });
       this.gameStarted = false;
-    },
-    addLogMessage() {
-      //...
     }
-  },
-  computed: {}
+  }
 });
