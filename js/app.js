@@ -5,6 +5,8 @@ new Vue({
     playerHealth: 100,
     monsterHealth: 100,
     player: {
+      maxHealth: 100,
+      healthForHeal: 90,
       maxDamage: 10,
       minDamage: 3,
       maxSpecDamage: 20,
@@ -16,6 +18,7 @@ new Vue({
     },
     winMessage: `Вы выиграли! Сыграем ещё?`,
     lostMessage: `Увы, монстр оказался сильнее... Наваляем ему?`,
+    healValue: 10,
     logMessages: []
   },
   methods: {
@@ -65,7 +68,12 @@ new Vue({
       this.checkWin();
     },
     heal() {
-      //...
+      if (this.playerHealth <= this.player.healthForHeal) {
+        this.playerHealth += this.healValue;
+      } else {
+        this.playerHealth = this.player.maxHealth;
+      }
+      this.monsterAttack();
     },
     giveUp() {
       this.gameStarted = false;
