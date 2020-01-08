@@ -59,9 +59,10 @@ new Vue({
 
       const damage = this.calcDamage(playerMinDamage, playerMaxDamage)
       this.monsterHealth -= damage;
+      const message = spec ? `Вы сильно бьёте монстра: ${damage}` : `Вы наносите урон монстру: ${damage}`;
       this.turns.unshift({
         isPlayer: true,
-        text: `Вы наносите урон монстру: ${damage}`
+        text: message
       });
       if (this.checkWin()) {
         return;
@@ -84,6 +85,10 @@ new Vue({
       } else {
         this.playerHealth = this.player.maxHealth;
       }
+      this.turns.unshift({
+        isPlayer: true,
+        text: `Вы восстанавливаете здоровье: ${this.healValue}`
+      });
       this.monsterAttack();
     },
     giveUp() {
